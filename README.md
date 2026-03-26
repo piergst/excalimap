@@ -15,6 +15,23 @@ Mindmap creation from Markdown to Excalidraw, with SVG export.
 - `podman` and `podman-compose`
 - `curl`
 
+## Installation
+
+```bash
+git clone <repo-url>
+cd excalimap
+uv sync
+```
+
+That's it. `uv sync` installs all Python dependencies (pyyaml, pillow) in an isolated venv.
+
+For development (includes ruff formatter):
+```bash
+uv sync --dev
+uv run ruff format src/
+uv run ruff check --fix src/
+```
+
 ## Usage
 
 ```bash
