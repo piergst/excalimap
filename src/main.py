@@ -61,6 +61,7 @@ if __name__ == "__main__":
     Config.set_theme(args.theme)
 
     mm_folder = args.input_folder
+    Config.icon_path = f'{mm_folder}/icon'
     conf_file = f'{mm_folder}/conf.yml'
 
     if not os.path.isfile(conf_file):
