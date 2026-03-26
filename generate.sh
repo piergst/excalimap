@@ -5,20 +5,20 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 KROKI_URL="${KROKI_URL:-http://localhost:8000}"
 
 usage() {
-    echo "Usage: $0 <mindmap_folder> [options]"
+    echo "Usage: $0 <examples_folder> [options]"
     echo ""
-    echo "Generate excalidraw mindmap and optionally export to SVG."
+    echo "Generate excalidraw mindmap and optionally export to SVG + PNG."
     echo ""
     echo "Options:"
     echo "  -t, --theme    Theme to use: dark (default), light"
     echo "  -s, --style    Style to use: classic (default), handraw"
-    echo "  -e, --export   Export to SVG (starts Kroki automatically via podman-compose)"
+    echo "  -e, --export   Export to SVG + PNG (starts Kroki automatically via podman-compose)"
     echo "  -h, --help     Show this help"
     echo ""
     echo "Examples:"
-    echo "  $0 mindmap/example"
-    echo "  $0 mindmap/example -t light -s handraw"
-    echo "  $0 mindmap/example -e"
+    echo "  $0 examples/demo"
+    echo "  $0 examples/demo -t light -s handraw"
+    echo "  $0 examples/demo -e"
     exit 0
 }
 
@@ -64,18 +64,19 @@ while [ $# -gt 0 ]; do
     esac
 done
 
-NAME=$(echo "$FOLDER" | sed 's|/|_|g')
-OUTFILE="output/${NAME}_${THEME}_${STYLE}.excalidraw"
+NAME=$(basename "$FOLDER")
+OUTDIR="output/${NAME}_${THEME}_${STYLE}"
+mkdir -p "$OUTDIR"
+
+OUTFILE="${OUTDIR}/${NAME}.excalidraw"
 
 echo "[+] Generating excalidraw: $OUTFILE"
 python3 src/main.py -f "$FOLDER" -t "$THEME" -s "$STYLE" -o "$OUTFILE"
 
 if [ "$EXPORT" = true ]; then
-    mkdir -p output/svg
-
     start_kroki
 
-    SVGFILE="output/svg/${NAME}_${THEME}_${STYLE}.svg"
+    SVGFILE="${OUTDIR}/${NAME}.svg"
     echo "[+] Exporting SVG: $SVGFILE"
 
     TMPFILE=$(mktemp)
@@ -100,8 +101,7 @@ json.dump({'diagram_source': content}, open(sys.argv[2], 'w'))
         exit 1
     fi
 
-    # Convert SVG to PNG
-    PNGFILE="output/svg/${NAME}_${THEME}_${STYLE}.png"
+    PNGFILE="${OUTDIR}/${NAME}.png"
     echo "[+] Converting to PNG: $PNGFILE"
     rsvg-convert "$SVGFILE" -o "$PNGFILE"
     echo "[+] PNG exported: $PNGFILE"

@@ -2,7 +2,7 @@ main_title: Mindmap Demo
 main_title_logo: ocd
 
 matrix:
-  - ['example']
+  - ['demo']
 
 tools:
   excalidraw:

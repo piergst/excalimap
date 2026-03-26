@@ -18,13 +18,13 @@ Mindmap creation from Markdown to Excalidraw, with SVG/PNG export.
 
 ```bash
 # Generate .excalidraw file only
-./generate.sh mindmap/example
+./generate.sh examples/demo
 
 # Generate .excalidraw + SVG + PNG
-./generate.sh mindmap/example -e
+./generate.sh examples/demo -e
 
 # With theme and style options
-./generate.sh mindmap/example -t light -s handraw -e
+./generate.sh examples/demo -t light -s handraw -e
 ```
 
 Options:
@@ -39,13 +39,20 @@ The `-e` flag starts a [Kroki](https://kroki.io/) instance via `podman-compose` 
 podman-compose down
 ```
 
-Output files go to `output/` (.excalidraw) and `output/svg/` (.svg, .png).
+Output files go to `output/<name>_<theme>_<style>/`:
+
+```
+output/demo_dark_classic/
+  demo.excalidraw
+  demo.svg
+  demo.png
+```
 
 You can also open any `.excalidraw` file directly at https://excalidraw.com/
 
 ## Creating a mindmap
 
-Create a folder in `mindmap/` with:
+Create a folder in `examples/` with:
 - `conf.yml` — configuration (title, layout, tools, colors)
 - One or more `.md` files — the mindmap content
 
@@ -57,7 +64,7 @@ The markdown describes the **content** (commands, info, links). The conf.yml des
 main_title: Mindmap Demo
 main_title_logo: ocd
 matrix:
-  - ['example']
+  - ['demo']
 tools:
   excalidraw:
     icon: github
@@ -165,19 +172,19 @@ out:
 ## Examples
 
 Two examples are included:
-- `mindmap/example/` — minimal demo showing all features
-- `mindmap/ad-example/` — AD pentest "No Credentials" phase
+- `examples/demo/` — minimal demo showing all features
+- `examples/ad/` — AD pentest "No Credentials" phase
 
 ## Result
 
-- Dark / Classic : `./generate.sh mindmap/example`
+- Dark / Classic : `./generate.sh examples/demo`
 ![demo_dark_classic](./doc/img/demo_dark_classic.png)
 
-- Dark / Handraw : `./generate.sh mindmap/example -s handraw`
+- Dark / Handraw : `./generate.sh examples/demo -s handraw`
 ![demo_dark_handraw](./doc/img/demo_dark_handraw.png)
 
-- Light / Classic : `./generate.sh mindmap/example -t light -s classic`
+- Light / Classic : `./generate.sh examples/demo -t light -s classic`
 ![demo_light_classic](./doc/img/demo_light_classic.png)
 
-- Light / Handraw : `./generate.sh mindmap/example -t light -s handraw`
+- Light / Handraw : `./generate.sh examples/demo -t light -s handraw`
 ![demo_light_handraw](./doc/img/demo_light_handraw.png)
