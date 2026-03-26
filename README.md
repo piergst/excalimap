@@ -4,10 +4,24 @@
 
 - usage:
 ```bash
+# Generate .excalidraw file only
 python3 src/main.py -f mindmap_folder
+
+# Generate .excalidraw + export SVG/PNG (requires Docker)
+./generate.sh mindmap_folder -e
+
+# With theme and style options
+./generate.sh mindmap_folder -t dark -s handraw -e
 ```
 
 - Visualisation: https://excalidraw.com/
+
+## SVG/PNG Export
+
+Export requires Docker with `my-excalidraw-brute-export-cli-image`.
+See: https://github.com/realazthat/excalidraw-brute-export-cli
+
+Thumbnails require `mogrify` (ImageMagick).
 
 ## Example
 
