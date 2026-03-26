@@ -9,8 +9,12 @@ usage() {
     echo "Options:"
     echo "  -t, --theme    Theme to use: dark (default), light"
     echo "  -s, --style    Style to use: classic (default), handraw"
-    echo "  -e, --export   Export to SVG and PNG (requires Docker)"
+    echo "  -e, --export   Export to SVG and PNG"
     echo "  -h, --help     Show this help"
+    echo ""
+    echo "Export uses npx excalidraw-brute-export-cli (requires Node.js >= 18)"
+    echo "Install: npm install -g excalidraw-brute-export-cli"
+    echo "         npx playwright install-deps && npx playwright install firefox"
     echo ""
     echo "Examples:"
     echo "  $0 mindmap/example"
@@ -48,36 +52,32 @@ echo "[+] Generating excalidraw: $OUTFILE"
 python3 src/main.py -f "$FOLDER" -t "$THEME" -s "$STYLE" -o "$OUTFILE"
 
 if [ "$EXPORT" = true ]; then
-    if ! command -v docker &> /dev/null; then
-        echo "[-] Docker is required for SVG/PNG export"
-        echo "    See: https://github.com/realazthat/excalidraw-brute-export-cli"
-        exit 1
+    DARK_MODE=0
+    if [ "$THEME" = "dark" ]; then
+        DARK_MODE=1
     fi
 
     mkdir -p output/svg
 
-    echo "[+] Exporting SVG: output/svg/${NAME}_${THEME}_${STYLE}.svg"
-    docker run --rm -v "${PWD}/output:/data" my-excalidraw-brute-export-cli-image \
-        -i "./${NAME}_${THEME}_${STYLE}.excalidraw" \
-        --background 1 \
-        --embed-scene 0 \
-        --dark-mode 0 \
-        --scale 1 \
-        --format svg \
-        -o "./svg/${NAME}_${THEME}_${STYLE}.svg"
+    export_file() {
+        local format="$1"
+        local outpath="$2"
+        echo "[+] Exporting ${format^^}: $outpath"
+        npx excalidraw-brute-export-cli \
+            -i "$OUTFILE" \
+            --background 1 \
+            --embed-scene 0 \
+            --dark-mode "$DARK_MODE" \
+            --scale 1 \
+            --format "$format" \
+            -o "$outpath"
+    }
 
-    echo "[+] Exporting PNG: output/svg/${NAME}_${THEME}_${STYLE}.png"
-    docker run --rm -v "${PWD}/output:/data" my-excalidraw-brute-export-cli-image \
-        -i "./${NAME}_${THEME}_${STYLE}.excalidraw" \
-        --background 1 \
-        --embed-scene 0 \
-        --dark-mode 0 \
-        --scale 1 \
-        --format png \
-        -o "./svg/${NAME}_${THEME}_${STYLE}.png"
+    export_file svg "output/svg/${NAME}_${THEME}_${STYLE}.svg"
+    export_file png "output/svg/${NAME}_${THEME}_${STYLE}.png"
 
     if command -v mogrify &> /dev/null; then
-        echo "[+] Creating thumbnail: output/svg/thumbnail_${NAME}_${THEME}_${STYLE}.png"
+        echo "[+] Creating thumbnail"
         cp "output/svg/${NAME}_${THEME}_${STYLE}.png" "output/svg/thumbnail_${NAME}_${THEME}_${STYLE}.png"
         mogrify -resize 500x "output/svg/thumbnail_${NAME}_${THEME}_${STYLE}.png"
     else

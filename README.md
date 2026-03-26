@@ -7,7 +7,7 @@
 # Generate .excalidraw file only
 python3 src/main.py -f mindmap_folder
 
-# Generate .excalidraw + export SVG/PNG (requires Docker)
+# Generate .excalidraw + export SVG/PNG (requires Node.js)
 ./generate.sh mindmap_folder -e
 
 # With theme and style options
@@ -18,8 +18,13 @@ python3 src/main.py -f mindmap_folder
 
 ## SVG/PNG Export
 
-Export requires Docker with `my-excalidraw-brute-export-cli-image`.
-See: https://github.com/realazthat/excalidraw-brute-export-cli
+Export requires [excalidraw-brute-export-cli](https://github.com/realazthat/excalidraw-brute-export-cli) (Node.js >= 18):
+
+```bash
+npm install -g excalidraw-brute-export-cli
+npx playwright install-deps
+npx playwright install firefox
+```
 
 Thumbnails require `mogrify` (ImageMagick).
 
