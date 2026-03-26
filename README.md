@@ -4,7 +4,7 @@
 
 - usage:
 ```bash
-python3 main.py -f mindmap_folder
+python3 src/main.py -f mindmap_folder
 ```
 
 - Visualisation: https://excalidraw.com/
@@ -62,18 +62,18 @@ out:
 ```
 
 ```bash
-python3 main.py -f example
+python3 src/main.py -f mindmap/example
 ```
 
-Result : 
-- Dark / Classic : `python3 main.py -f mindmap/example`
+Result :
+- Dark / Classic : `python3 src/main.py -f mindmap/example`
 ![demo_dark_classic](./doc/img/demo_dark_classic.png)
 
-- Dark / Handraw : `python3 main.py -f mindmap/example -s handraw`
+- Dark / Handraw : `python3 src/main.py -f mindmap/example -s handraw`
 ![demo_dark_handraw](./doc/img/demo_dark_handraw.png)  
 
-- Light / Classic : `python3 main.py -f mindmap/example -t light -s classic`
+- Light / Classic : `python3 src/main.py -f mindmap/example -t light -s classic`
 ![demo_light_classic](./doc/img/demo_light_classic.png)  
 
-- Light / Classic : `python3 main.py -f mindmap/example -t light -s handraw`
+- Light / Handraw : `python3 src/main.py -f mindmap/example -t light -s handraw`
 ![demo_light_handraw](./doc/img/demo_light_handraw.png)  
