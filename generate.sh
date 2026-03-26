@@ -12,7 +12,7 @@ usage() {
     echo "Options:"
     echo "  -t, --theme    Theme to use: dark (default), light"
     echo "  -s, --style    Style to use: classic (default), handraw"
-    echo "  -e, --export   Export to SVG + PNG (starts Kroki automatically via podman-compose)"
+    echo "  -e, --export   Export to SVG (starts Kroki automatically via podman-compose)"
     echo "  -h, --help     Show this help"
     echo ""
     echo "Examples:"
@@ -100,9 +100,4 @@ json.dump({'diagram_source': content}, open(sys.argv[2], 'w'))
         head -5 "$SVGFILE"
         exit 1
     fi
-
-    PNGFILE="${OUTDIR}/${NAME}.png"
-    echo "[+] Converting to PNG: $PNGFILE"
-    rsvg-convert "$SVGFILE" -o "$PNGFILE"
-    echo "[+] PNG exported: $PNGFILE"
 fi

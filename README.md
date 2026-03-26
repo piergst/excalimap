@@ -1,6 +1,6 @@
 # Excalimap
 
-Mindmap creation from Markdown to Excalidraw, with SVG/PNG export.
+Mindmap creation from Markdown to Excalidraw, with SVG export.
 
 ## Prerequisites
 
@@ -8,10 +8,9 @@ Mindmap creation from Markdown to Excalidraw, with SVG/PNG export.
 - Python 3
 - `pyyaml`, `pillow` (`pip install -r requirements.txt`)
 
-**For full export (SVG + PNG):**
+**For SVG export:**
 - Everything above
 - `podman` and `podman-compose`
-- `rsvg-convert` (librsvg) for PNG conversion
 - `curl`
 
 ## Usage
@@ -20,7 +19,7 @@ Mindmap creation from Markdown to Excalidraw, with SVG/PNG export.
 # Generate .excalidraw file only
 ./generate.sh examples/demo
 
-# Generate .excalidraw + SVG + PNG
+# Generate .excalidraw + SVG
 ./generate.sh examples/demo -e
 
 # With theme and style options
@@ -30,9 +29,9 @@ Mindmap creation from Markdown to Excalidraw, with SVG/PNG export.
 Options:
 - `-t, --theme` : `dark` (default) or `light`
 - `-s, --style` : `classic` (default) or `handraw`
-- `-e, --export` : export to SVG + PNG (starts Kroki automatically)
+- `-e, --export` : export to SVG (starts Kroki automatically)
 
-The `-e` flag starts a [Kroki](https://kroki.io/) instance via `podman-compose` if not already running, exports to SVG, then converts to PNG with `rsvg-convert`.
+The `-e` flag starts a [Kroki](https://kroki.io/) instance via `podman-compose` if not already running, then exports to SVG.
 
 ```bash
 # Stop Kroki when done
@@ -45,7 +44,6 @@ Output files go to `output/<name>_<theme>_<style>/`:
 output/demo_dark_classic/
   demo.excalidraw
   demo.svg
-  demo.png
 ```
 
 You can also open any `.excalidraw` file directly at https://excalidraw.com/
