@@ -53,6 +53,16 @@ You can also open any `.excalidraw` file directly at https://excalidraw.com/
 Create a folder in `examples/` with:
 - `conf.yml` — configuration (title, layout, tools, colors)
 - One or more `.md` files — the mindmap content
+- `icon/` — tool icons (.png) referenced by `conf.yml`
+
+```
+examples/demo/
+  conf.yml
+  demo.md
+  icon/
+    github.png
+    ocd.png
+```
 
 ### conf.yml
 
