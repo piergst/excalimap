@@ -99,4 +99,10 @@ json.dump({'diagram_source': content}, open(sys.argv[2], 'w'))
         head -5 "$SVGFILE"
         exit 1
     fi
+
+    # Convert SVG to PNG
+    PNGFILE="output/svg/${NAME}_${THEME}_${STYLE}.png"
+    echo "[+] Converting to PNG: $PNGFILE"
+    rsvg-convert "$SVGFILE" -o "$PNGFILE"
+    echo "[+] PNG exported: $PNGFILE"
 fi
