@@ -2,6 +2,8 @@
 
 Mindmap creation from Markdown to Excalidraw, with SVG export.
 
+> Based on the [excalimap](https://github.com/Orange-Cyberdefense/ocd-mindmaps/tree/main/excalimap) engine from [Orange Cyberdefense's ocd-mindmaps](https://github.com/Orange-Cyberdefense/ocd-mindmaps). The original project generates Active Directory pentesting mindmaps. This fork isolates and keeps only the Markdown to Excalidraw/SVG generation feature as a standalone tool. Licensed under GPL-3.0, same as the original.
+
 ## Prerequisites
 
 **For .excalidraw generation only:**
