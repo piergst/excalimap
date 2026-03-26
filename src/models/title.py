@@ -1,14 +1,12 @@
 from config import Config
 from models.mapobject import MapObject
-from models.command import Command
-from models.arrow import Arrow
 from utils import Utils
+
 
 class Title(MapObject):
     def __init__(self, text, content=None, out=None, object_id=None, is_cve=False):
         super().__init__(text, object_id, content, out, is_cve)
         self.object_width = Config.title_width
-
 
     def __repr__(self):
         return f"Title(text={self.text}, content={self.content}, out={self.out})\n"
@@ -28,7 +26,7 @@ class Title(MapObject):
         # draw out
         elements, end_x, end_y = self.draw_out(elements, y, center_y, total_size, end_x, end_y, color)
 
-        title_element =[
+        title_element = [
             {
                 "type": "rectangle",
                 "id": f"{self.object_id}",
@@ -45,14 +43,9 @@ class Title(MapObject):
                 "roughness": Config.title_roughness,
                 "opacity": 100,
                 "roundness": None,
-                "boundElements": [
-                    {
-                        "type": "text",
-                        "id": f"{self.object_id + hash(self.text)}"
-                    }
-                ],
+                "boundElements": [{"type": "text", "id": f"{self.object_id + hash(self.text)}"}],
                 "isDeleted": False,
-                "locked": False
+                "locked": False,
             },
             {
                 "type": "text",
@@ -73,7 +66,9 @@ class Title(MapObject):
                 "textAlign": "center",
                 "verticalAlign": "middle",
                 "containerId": f"{self.object_id}",
-                "isDeleted": False, }]
+                "isDeleted": False,
+            },
+        ]
 
         Utils.flat_and_add_to_list(elements, title_element)
         return elements, end_x, end_y

@@ -1,5 +1,4 @@
 class Utils:
-
     images_catalog = {}
     id_counter = 0
 
@@ -18,7 +17,6 @@ class Utils:
     @classmethod
     def modify_id_counter(cls, new_value):
         cls.id_counter = new_value
-
 
     @staticmethod
     def flat_and_add_to_list(lst, item):
@@ -41,7 +39,7 @@ class Utils:
     @staticmethod
     def len_text(text):
         size = 0
-        for txt in text.split('\n'):
+        for txt in text.split("\n"):
             size = max(len(txt), size)
         return size
 
@@ -49,13 +47,13 @@ class Utils:
     def split_text(text, size_newline):
         if len(text) > size_newline:
             middle_text = len(text) / 2
-            text_blocs = text.split(' ')
-            text_multiline = ''
+            text_blocs = text.split(" ")
+            text_multiline = ""
             split = False
             for text_bloc in text_blocs:
                 if len(text_multiline) > middle_text and not split:
-                    text_multiline += '\n'
+                    text_multiline += "\n"
                     split = True
-                text_multiline += text_bloc + ' '
+                text_multiline += text_bloc + " "
             text = text_multiline.strip()
         return text

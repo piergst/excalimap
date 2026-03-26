@@ -5,8 +5,8 @@ Mindmap creation from Markdown to Excalidraw, with SVG export.
 ## Prerequisites
 
 **For .excalidraw generation only:**
-- Python 3
-- `pyyaml`, `pillow` (`pip install -r requirements.txt`)
+- Python >= 3.10
+- [`uv`](https://docs.astral.sh/uv/) (manages dependencies automatically)
 
 **For SVG export:**
 - Everything above

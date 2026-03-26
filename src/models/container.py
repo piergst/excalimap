@@ -2,6 +2,7 @@ from config import Config
 from models.mapobject import MapObject
 from utils import Utils
 
+
 class Container(MapObject):
     def __init__(self, text, color, position, content=None, object_id=None):
         super().__init__(text, object_id, content)
@@ -50,14 +51,9 @@ class Container(MapObject):
                 "roughness": 1,
                 "opacity": 100,
                 "roundness": None,
-                "boundElements": [
-                    {
-                        "type": "text",
-                        "id": f"{self.object_id + hash(self.text)}"
-                    }
-                ],
+                "boundElements": [{"type": "text", "id": f"{self.object_id + hash(self.text)}"}],
                 "isDeleted": False,
-                "locked": False
+                "locked": False,
             },
             {
                 "type": "text",
@@ -78,14 +74,15 @@ class Container(MapObject):
                 "textAlign": "center",
                 "verticalAlign": "middle",
                 "containerId": f"{self.object_id}",
-                "isDeleted": False, }
-            ,{
+                "isDeleted": False,
+            },
+            {
                 "type": "rectangle",
                 "id": f"{self.object_id}",
                 "x": start_x,
                 "y": start_y,
-                "width": end_x - start_x   + Config.padding_width,
-                "height": end_y - start_y  + Config.padding_height,
+                "width": end_x - start_x + Config.padding_width,
+                "height": end_y - start_y + Config.padding_height,
                 "angle": 0,
                 "strokeColor": self.color,
                 "backgroundColor": Config.container_background,
@@ -96,7 +93,8 @@ class Container(MapObject):
                 "opacity": 100,
                 "roundness": None,
                 "isDeleted": False,
-                "locked": False
-            }]
+                "locked": False,
+            },
+        ]
         Utils.flat_and_add_to_list(elements, element)
         return elements, end_x, end_y

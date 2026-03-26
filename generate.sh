@@ -71,7 +71,7 @@ mkdir -p "$OUTDIR"
 OUTFILE="${OUTDIR}/${NAME}.excalidraw"
 
 echo "[+] Generating excalidraw: $OUTFILE"
-python3 src/main.py -f "$FOLDER" -t "$THEME" -s "$STYLE" -o "$OUTFILE"
+uv run python src/main.py -f "$FOLDER" -t "$THEME" -s "$STYLE" -o "$OUTFILE"
 
 if [ "$EXPORT" = true ]; then
     start_kroki
@@ -80,7 +80,7 @@ if [ "$EXPORT" = true ]; then
     echo "[+] Exporting SVG: $SVGFILE"
 
     TMPFILE=$(mktemp)
-    python3 -c "
+    uv run python -c "
 import sys, json
 with open(sys.argv[1]) as f:
     content = f.read()

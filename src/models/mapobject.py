@@ -1,6 +1,7 @@
 from config import Config
-from utils import Utils
 from models.arrow import Arrow
+from utils import Utils
+
 
 class MapObject:
     def __init__(self, text, object_id=None, content=None, out=None, is_cve=False):
@@ -82,13 +83,14 @@ class MapObject:
             # call draw but will not be drawed
             (element, element_end_x, element_end_y) = content.draw(child_x, y)
             start_element_id = f"{self.object_id}"  # title id
-            end_element_id = element[0]['id']  # first element result
+            end_element_id = element[0]["id"]  # first element result
             arrow_from_x = x + self.object_width
             arrow_from_y = title_y + Config.title_height / 2
             arrow_to_x = child_x
             arrow_to_y = y + (element_end_y - y) / 2
-            arrow = Arrow.draw_arrow_title_command(start_element_id, end_element_id, arrow_from_x, arrow_from_y,
-                                                   arrow_to_x, arrow_to_y)
+            arrow = Arrow.draw_arrow_title_command(
+                start_element_id, end_element_id, arrow_from_x, arrow_from_y, arrow_to_x, arrow_to_y
+            )
             y = element_end_y + Config.space_height
             Utils.flat_and_add_to_list(elements, arrow)
 

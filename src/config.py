@@ -73,7 +73,7 @@ class Config:
     # image
     image_width = 44
     image_height = 44
-    icon_path = './icon'
+    icon_path = "./icon"
 
     # out
     out_line_width = 30
@@ -89,10 +89,10 @@ class Config:
 
     @classmethod
     def set_style(cls, style):
-        if style == 'handraw':
+        if style == "handraw":
             # style hand draw
-            cls.roughness = 2   # 0: architect / 1:artist / 2: handdraw
-            cls.font_family = 5 # 6: normal / 5: handraw / 8: code
+            cls.roughness = 2  # 0: architect / 1:artist / 2: handdraw
+            cls.font_family = 5  # 6: normal / 5: handraw / 8: code
             cls.code_font_family = 8
         else:
             # style clean (default)
@@ -102,7 +102,7 @@ class Config:
 
     @classmethod
     def set_theme(cls, theme):
-        if theme == 'light':
+        if theme == "light":
             # white theme
             cls.background_color = "#fff"
             cls.text_color = "#1e1e1e"
@@ -115,7 +115,7 @@ class Config:
             cls.info_background_color = "#f8f1ee"
             cls.border_color = "#1e1e1e"
             cls.main_title_border_color = "#1e1e1e"
-            cls.cve_color = "#FAD7AC" #"#ffc9c9"
+            cls.cve_color = "#FAD7AC"  # "#ffc9c9"
             cls.cve_text_color = "#1e1e1e"
         else:
             # dark theme (default)

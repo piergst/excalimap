@@ -38,29 +38,17 @@ class Out(MapObject):
             "link": None,
             "locked": False,
             "points": [
-                [
-                    0,
-                    0
-                ],
-                [
-                    Config.out_line_width/2,
-                    height/2
-                ],
-                [
-                    Config.out_line_width/2,
-                    height/2
-                ],
-                [
-                    0,
-                    height
-                ]
+                [0, 0],
+                [Config.out_line_width / 2, height / 2],
+                [Config.out_line_width / 2, height / 2],
+                [0, height],
             ],
             "lastCommittedPoint": None,
             "startBinding": None,
             "endBinding": None,
             "startArrowhead": None,
-            "endArrowhead": None
-            }
+            "endArrowhead": None,
+        }
 
         # "points": [
         #     [
@@ -91,7 +79,9 @@ class Out(MapObject):
         if self.out is not None:
             total_size = end_y - y
             center_y = y + total_size / 2
-            element, child_end_x, child_end_y = self.draw_out(self.content, y, center_y, total_size, end_x, end_y, color)
+            element, child_end_x, child_end_y = self.draw_out(
+                self.content, y, center_y, total_size, end_x, end_y, color
+            )
             Utils.flat_and_add_to_list(elements, element)
             end_x = max(end_x, child_end_x)
             end_y = max(end_y, child_end_y)
@@ -100,31 +90,27 @@ class Out(MapObject):
 
         if self.color is None:
             self.color = color
-        element = [{
-            "type": "rectangle",
-            "id": f"{self.object_id}{self.text}",
-            "x": x,
-            "y": y,
-            "width": Config.out_width,
-            "height": Config.out_height,
-            "angle": 0,
-            "strokeColor": "#1e1e1e",
-            "backgroundColor": self.color,
-            "fillStyle": "solid",
-            "strokeWidth": Config.out_line_line_width,
-            "strokeStyle": "solid",
-            "roughness": Config.out_roughness,
-            "opacity": 100,
-            "roundness": None,
-            "boundElements": [
-                {
-                    "type": "text",
-                    "id": f"{self.object_id}{hash(self.text)}"
-                }
-            ],
-            "isDeleted": False,
-            "locked": False
-        },
+        element = [
+            {
+                "type": "rectangle",
+                "id": f"{self.object_id}{self.text}",
+                "x": x,
+                "y": y,
+                "width": Config.out_width,
+                "height": Config.out_height,
+                "angle": 0,
+                "strokeColor": "#1e1e1e",
+                "backgroundColor": self.color,
+                "fillStyle": "solid",
+                "strokeWidth": Config.out_line_line_width,
+                "strokeStyle": "solid",
+                "roughness": Config.out_roughness,
+                "opacity": 100,
+                "roundness": None,
+                "boundElements": [{"type": "text", "id": f"{self.object_id}{hash(self.text)}"}],
+                "isDeleted": False,
+                "locked": False,
+            },
             {
                 "type": "text",
                 "text": self.text,
@@ -144,6 +130,8 @@ class Out(MapObject):
                 "textAlign": "center",
                 "verticalAlign": "middle",
                 "containerId": f"{self.object_id}",
-                "isDeleted": False, }]
+                "isDeleted": False,
+            },
+        ]
         Utils.flat_and_add_to_list(elements, element)
         return elements, end_x, end_y
