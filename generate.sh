@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 KROKI_URL="${KROKI_URL:-http://localhost:8000}"
 
 usage() {
@@ -11,17 +12,35 @@ usage() {
     echo "Options:"
     echo "  -t, --theme    Theme to use: dark (default), light"
     echo "  -s, --style    Style to use: classic (default), handraw"
-    echo "  -e, --export   Export to SVG (requires Kroki, see below)"
+    echo "  -e, --export   Export to SVG (starts Kroki automatically via podman-compose)"
     echo "  -h, --help     Show this help"
-    echo ""
-    echo "SVG export requires a running Kroki instance:"
-    echo "  podman-compose up -d"
     echo ""
     echo "Examples:"
     echo "  $0 mindmap/example"
     echo "  $0 mindmap/example -t light -s handraw"
     echo "  $0 mindmap/example -e"
     exit 0
+}
+
+start_kroki() {
+    if curl -s "${KROKI_URL}/health" 2>/dev/null | grep -q "ok\|UP"; then
+        return 0
+    fi
+
+    echo "[+] Starting Kroki..."
+    podman-compose -f "$SCRIPT_DIR/docker-compose.yml" up -d
+
+    echo -n "[+] Waiting for Kroki"
+    for i in $(seq 1 30); do
+        if curl -s "${KROKI_URL}/health" 2>/dev/null | grep -q "ok\|UP"; then
+            echo " ready"
+            return 0
+        fi
+        echo -n "."
+        sleep 1
+    done
+    echo " timeout!"
+    exit 1
 }
 
 if [ -z "$1" ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
@@ -54,17 +73,11 @@ python3 src/main.py -f "$FOLDER" -t "$THEME" -s "$STYLE" -o "$OUTFILE"
 if [ "$EXPORT" = true ]; then
     mkdir -p output/svg
 
-    # Check Kroki is running
-    if ! curl -s "${KROKI_URL}/health" | grep -q "ok\|UP" 2>/dev/null; then
-        echo "[-] Kroki is not running at ${KROKI_URL}"
-        echo "    Start it with: podman-compose up -d"
-        exit 1
-    fi
+    start_kroki
 
     SVGFILE="output/svg/${NAME}_${THEME}_${STYLE}.svg"
     echo "[+] Exporting SVG: $SVGFILE"
 
-    # Kroki expects {"diagram_source": "<excalidraw json as string>"}
     TMPFILE=$(mktemp)
     python3 -c "
 import sys, json
