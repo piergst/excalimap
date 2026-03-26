@@ -1,0 +1,75 @@
+main_title: AD Pentest Example
+main_title_logo: ocd
+
+matrix:
+  - ['no_creds']
+
+tools:
+  nxc:
+    icon: github
+    link: https://github.com/Pennyw0rth/NetExec
+  nmap:
+    icon: github
+    link: https://github.com/nmap/nmap
+  nslookup:
+    link: https://linux.die.net/man/1/nslookup
+  nmcli:
+    link: https://linux.die.net/man/1/nmcli
+  dig:
+    link: https://linux.die.net/man/1/dig
+  smbclient:
+    link: https://linux.die.net/man/1/smbclient
+  ldapsearch:
+    link: https://linux.die.net/man/1/ldapsearch
+  tftp:
+    link: https://linux.die.net/man/1/tftp
+  enum4linux-ng.py:
+    icon: github
+    link: https://github.com/cddmp/enum4linux-ng
+  kerbrute:
+    icon: github
+    link: https://github.com/ropnop/kerbrute
+  responder:
+    icon: github
+    link: https://github.com/lgandx/Responder
+  mitm6:
+    icon: github
+    link: https://github.com/dirkjanm/mitm6
+  bettercap:
+    icon: github
+    link: https://www.bettercap.org/
+  petitpotam.py:
+    icon: github
+    link: https://github.com/topotam/PetitPotam
+  pxethief.py:
+    icon: github
+    link: https://github.com/MWR-CyberSec/PXEThief
+  timeroast.py:
+    icon: github
+    link: https://github.com/SecuraBV/Timeroast
+  Pcredz:
+    icon: github
+    link: https://github.com/lgandx/PCredz
+
+color_id:
+  nocreds: "#D0CEE2"
+  crack: "#f08c00"
+  valid_user: "#66B2FF"
+  creds: "#00ff00"
+  mitm: "#ffff00"
+  low_hanging: "#ebfbee"
+
+container_color:
+  No Credentials: nocreds
+
+out:
+  Vulnerable host: low_hanging
+  Username: valid_user
+  poisoning SMB: mitm
+  poisoning LDAP: mitm
+  poisoning HTTP: mitm
+  Coerce SMB: mitm
+  Credentials (NAA account): creds
+  PXE Hash: crack
+  timeroast hash: crack
+  Hash found ASREQ: crack
