@@ -51,6 +51,8 @@ Create a folder in `mindmap/` with:
 
 ### conf.yml
 
+The markdown describes the **content** (commands, info, links). The conf.yml describes the **layout and style** (grid, colors, icons).
+
 ```yml
 main_title: Mindmap Demo
 main_title_logo: ocd
@@ -70,13 +72,55 @@ out:
   Mindmap: mindmap
 ```
 
-- `main_title` — title displayed at the top
-- `main_title_logo` — icon file name from `icon/` (without .png)
-- `matrix` — layout grid of .md file names (rows/columns)
-- `tools` — tool name to icon + link mapping (icons appear next to commands)
-- `color_id` — named color palette
-- `container_color` — color for `# Heading` containers
-- `out` — color for `>>>` output boxes
+**`main_title` / `main_title_logo`** — the title displayed at the top of the mindmap + its icon (file name from `icon/` without .png).
+
+**`matrix`** — the spatial layout. A grid that defines which .md files go where in the mindmap. Each cell is a .md file name (without extension), empty strings `''` leave gaps. Example from the AD mindmap:
+
+```yml
+matrix:
+  - ['no_creds'   , 'valid_user', 'authenticated', 'admin'    , 'dom_admin']
+  - ['low_hanging', 'mitm'      , ''             , 'lat_move' , 'trusts']
+  - ['authors'    , 'crack_hash', ''             , 'adcs'     , 'persistence']
+```
+
+This produces a 3-row x 5-column grid. Each cell becomes a block in the mindmap.
+
+**`tools`** — maps tool names to icons and links. When you write `` - `nmap -sV <ip>` `` in your markdown, the engine checks if `nmap` is in `tools`. If so, it displays the icon next to the command and adds a clickable link.
+
+```yml
+tools:
+  nmap:
+    icon: github        # icon/github.png
+    link: https://github.com/nmap/nmap
+  certipy:
+    icon: github
+    link: https://github.com/ly4k/Certipy
+```
+
+**`color_id`** — a named color palette, referenced by `container_color` and `out`.
+
+```yml
+color_id:
+  nocreds: "#D0CEE2"
+  creds: "#00ff00"
+  mitm: "#ffff00"
+```
+
+**`container_color`** — assigns a color to `# Heading` containers. The key must match the heading text exactly.
+
+```yml
+container_color:
+  No Credentials: nocreds     # -> #D0CEE2
+  Man In The Middle: mitm     # -> #ffff00
+```
+
+**`out`** — assigns a color to `>>>` output box labels. The key must match the label text exactly.
+
+```yml
+out:
+  Clear text Credentials: creds   # -> #00ff00
+  Coerce SMB: mitm                # -> #ffff00
+```
 
 ### Markdown syntax
 
