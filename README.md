@@ -1,39 +1,56 @@
 # Excalimap
 
-- Mindmap creation with markdown to excalidraw
+Mindmap creation from Markdown to Excalidraw, with SVG/PNG export.
 
-- usage:
+## Prerequisites
+
+**For .excalidraw generation only:**
+- Python 3
+- `pyyaml`, `pillow` (`pip install -r requirements.txt`)
+
+**For full export (SVG + PNG):**
+- Everything above
+- `podman` and `podman-compose`
+- `rsvg-convert` (librsvg) for PNG conversion
+- `curl`
+
+## Usage
+
 ```bash
 # Generate .excalidraw file only
-python3 src/main.py -f mindmap_folder
+./generate.sh mindmap/example
 
-# Generate .excalidraw + export SVG (uses Kroki via podman)
-./generate.sh mindmap_folder -e
-
-# With theme and style options
-./generate.sh mindmap_folder -t dark -s handraw -e
-```
-
-- Visualisation: https://excalidraw.com/
-
-## SVG Export
-
-Export uses [Kroki](https://kroki.io/) via `podman-compose`.
-
-```bash
-# Start Kroki
-podman-compose up -d
-
-# Generate + export SVG
+# Generate .excalidraw + SVG + PNG
 ./generate.sh mindmap/example -e
 
+# With theme and style options
+./generate.sh mindmap/example -t light -s handraw -e
+```
+
+Options:
+- `-t, --theme` : `dark` (default) or `light`
+- `-s, --style` : `classic` (default) or `handraw`
+- `-e, --export` : export to SVG + PNG (starts Kroki automatically)
+
+The `-e` flag starts a [Kroki](https://kroki.io/) instance via `podman-compose` if not already running, exports to SVG, then converts to PNG with `rsvg-convert`.
+
+```bash
 # Stop Kroki when done
 podman-compose down
 ```
 
-## Example
+Output files go to `output/` (.excalidraw) and `output/svg/` (.svg, .png).
 
-- config file
+You can also open any `.excalidraw` file directly at https://excalidraw.com/
+
+## Creating a mindmap
+
+Create a folder in `mindmap/` with:
+- `conf.yml` — configuration (title, layout, tools, colors)
+- One or more `.md` files — the mindmap content
+
+### conf.yml
+
 ```yml
 main_title: Mindmap Demo
 main_title_logo: ocd
@@ -53,7 +70,16 @@ out:
   Mindmap: mindmap
 ```
 
-- markdown file
+- `main_title` — title displayed at the top
+- `main_title_logo` — icon file name from `icon/` (without .png)
+- `matrix` — layout grid of .md file names (rows/columns)
+- `tools` — tool name to icon + link mapping (icons appear next to commands)
+- `color_id` — named color palette
+- `container_color` — color for `# Heading` containers
+- `out` — color for `>>>` output boxes
+
+### Markdown syntax
+
 ```markdown
 # Container title
 
@@ -83,19 +109,31 @@ out:
     - Level3
 ```
 
-```bash
-python3 src/main.py -f mindmap/example
-```
+- `# Heading` — container (top-level box)
+- `## Heading` — title (section within a container)
+- `- text` — info node
+- `` - `code` `` — command node (with tool icon if configured)
+- `>>> label` — output box (colored per `out` config)
+- `>>> A || B` — parallel output boxes
+- `@CVE@` — marks a node as CVE (highlighted)
+- `[url](url)` — adds a link to the previous node
 
-Result :
-- Dark / Classic : `python3 src/main.py -f mindmap/example`
+## Examples
+
+Two examples are included:
+- `mindmap/example/` — minimal demo showing all features
+- `mindmap/ad-example/` — AD pentest "No Credentials" phase
+
+## Result
+
+- Dark / Classic : `./generate.sh mindmap/example`
 ![demo_dark_classic](./doc/img/demo_dark_classic.png)
 
-- Dark / Handraw : `python3 src/main.py -f mindmap/example -s handraw`
-![demo_dark_handraw](./doc/img/demo_dark_handraw.png)  
+- Dark / Handraw : `./generate.sh mindmap/example -s handraw`
+![demo_dark_handraw](./doc/img/demo_dark_handraw.png)
 
-- Light / Classic : `python3 src/main.py -f mindmap/example -t light -s classic`
-![demo_light_classic](./doc/img/demo_light_classic.png)  
+- Light / Classic : `./generate.sh mindmap/example -t light -s classic`
+![demo_light_classic](./doc/img/demo_light_classic.png)
 
-- Light / Handraw : `python3 src/main.py -f mindmap/example -t light -s handraw`
-![demo_light_handraw](./doc/img/demo_light_handraw.png)  
+- Light / Handraw : `./generate.sh mindmap/example -t light -s handraw`
+![demo_light_handraw](./doc/img/demo_light_handraw.png)
