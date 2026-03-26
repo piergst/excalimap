@@ -7,7 +7,7 @@
 # Generate .excalidraw file only
 python3 src/main.py -f mindmap_folder
 
-# Generate .excalidraw + export SVG/PNG (requires Node.js)
+# Generate .excalidraw + export SVG (uses Kroki via podman)
 ./generate.sh mindmap_folder -e
 
 # With theme and style options
@@ -16,17 +16,20 @@ python3 src/main.py -f mindmap_folder
 
 - Visualisation: https://excalidraw.com/
 
-## SVG/PNG Export
+## SVG Export
 
-Export requires [excalidraw-brute-export-cli](https://github.com/realazthat/excalidraw-brute-export-cli) (Node.js >= 18):
+Export uses [Kroki](https://kroki.io/) via `podman-compose`.
 
 ```bash
-npm install -g excalidraw-brute-export-cli
-npx playwright install-deps
-npx playwright install firefox
-```
+# Start Kroki
+podman-compose up -d
 
-Thumbnails require `mogrify` (ImageMagick).
+# Generate + export SVG
+./generate.sh mindmap/example -e
+
+# Stop Kroki when done
+podman-compose down
+```
 
 ## Example
 
