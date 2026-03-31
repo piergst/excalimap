@@ -7,17 +7,19 @@ KROKI_URL="${KROKI_URL:-http://localhost:8000}"
 usage() {
     echo "Usage: $0 <examples_folder> [options]"
     echo ""
-    echo "Generate excalidraw mindmap and optionally export to SVG + PNG."
+    echo "Generate excalidraw mindmap and optionally export to SVG."
     echo ""
     echo "Options:"
     echo "  -t, --theme    Theme to use: dark (default), light"
     echo "  -s, --style    Style to use: classic (default), handraw"
+    echo "  -o, --output   Output directory (default: output/<name>_<theme>_<style>)"
     echo "  -e, --export   Export to SVG (starts Kroki automatically via podman-compose)"
     echo "  -h, --help     Show this help"
     echo ""
     echo "Examples:"
     echo "  $0 examples/demo"
     echo "  $0 examples/demo -t light -s handraw"
+    echo "  $0 examples/demo -o /tmp/out"
     echo "  $0 examples/demo -e"
     exit 0
 }
@@ -53,11 +55,13 @@ shift
 THEME="dark"
 STYLE="classic"
 EXPORT=false
+OUTDIR=""
 
 while [ $# -gt 0 ]; do
     case "$1" in
         -t|--theme) THEME="$2"; shift 2 ;;
         -s|--style) STYLE="$2"; shift 2 ;;
+        -o|--output) OUTDIR="$2"; shift 2 ;;
         -e|--export) EXPORT=true; shift ;;
         -h|--help) usage ;;
         *) echo "Unknown option: $1"; usage ;;
@@ -65,7 +69,8 @@ while [ $# -gt 0 ]; do
 done
 
 NAME=$(basename "$FOLDER")
-OUTDIR="output/${NAME}_${THEME}_${STYLE}"
+OUTDIR="${OUTDIR:-output/${NAME}_${THEME}_${STYLE}}"
+OUTDIR="${OUTDIR%/}"
 mkdir -p "$OUTDIR"
 
 OUTFILE="${OUTDIR}/${NAME}.excalidraw"

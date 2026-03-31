@@ -49,7 +49,7 @@ class ParserMD:
         parent_item.out.append(new_obj)
 
     @staticmethod
-    def parse_md_to_objects(md_data, conf):
+    def parse_md_to_objects(md_data, conf, filename=None):
         # # load yml
         # with open("mindmap/conf.yml", "r", encoding="utf-8") as file:
         #     conf = yaml.safe_load(file)
@@ -135,6 +135,8 @@ class ParserMD:
 
             if line.strip().startswith("- `"):
                 match = re.search(r"(\s*)- `(.+)`", line)
+                if not match:
+                    raise ValueError(f"{filename}: malformed command line: {line.rstrip()}")
                 spaces = len(match.group(1))
                 level = int(3 + spaces / 2)
                 text = Utils.split_text(match.group(2), Config.command_new_line_nb_chars)
