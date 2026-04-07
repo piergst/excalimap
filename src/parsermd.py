@@ -59,7 +59,7 @@ class ParserMD:
         parent = {}
         level = 0
         id = 0
-        for line in md_data:
+        for line_nb, line in enumerate(md_data, 1):
             # print(f'[+] parse line : {line}')
             cve = False
             id = id + 1
@@ -161,7 +161,12 @@ class ParserMD:
                     tool_link=tool_link,
                 )
                 parent[level] = new_obj
-                parent[level - 1].content.append(new_obj)
+                try:
+                    parent[level - 1].content.append(new_obj)
+                except KeyError:
+                    print(f"  [!] Indentation error at line {line_nb}: {line.rstrip()}")
+                    print(f"      Level {level} has no parent at level {level - 1}. Check indentation (must be 2-space increments).")
+                    raise
 
             elif line.strip().startswith("- "):
                 match = re.search(r"(\s*)- (.+)", line)
@@ -171,6 +176,11 @@ class ParserMD:
 
                 new_obj = Info(text=text, comment="", link=None, is_cve=cve, out=out, object_id=hash(f"{id}"))
                 parent[level] = new_obj
-                parent[level - 1].content.append(new_obj)
+                try:
+                    parent[level - 1].content.append(new_obj)
+                except KeyError:
+                    print(f"  [!] Indentation error at line {line_nb}: {line.rstrip()}")
+                    print(f"      Level {level} has no parent at level {level - 1}. Check indentation (must be 2-space increments).")
+                    raise
 
         return container
