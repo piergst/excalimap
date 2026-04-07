@@ -1,3 +1,5 @@
+import math
+
 from config import Config
 from models.mapobject import MapObject
 from utils import Utils
@@ -71,8 +73,12 @@ class Out(MapObject):
         return element, end_x, end_y
 
     def draw_out_element(self, x, y, color):
-        end_x = x + Config.out_width
-        end_y = y + Config.out_height
+        calc_width = math.ceil(Utils.len_text(self.text) * 10) + 10
+        out_width = max(Config.out_width, calc_width)
+        out_height = Config.out_height
+
+        end_x = x + out_width
+        end_y = y + out_height
 
         elements = []
 
@@ -96,8 +102,8 @@ class Out(MapObject):
                 "id": f"{self.object_id}{self.text}",
                 "x": x,
                 "y": y,
-                "width": Config.out_width,
-                "height": Config.out_height,
+                "width": out_width,
+                "height": out_height,
                 "angle": 0,
                 "strokeColor": "#1e1e1e",
                 "backgroundColor": self.color,
@@ -117,8 +123,8 @@ class Out(MapObject):
                 "id": f"{self.object_id}{hash(self.text)}",
                 "x": x + 5,
                 "y": y,
-                "width": Config.out_width - 5,
-                "height": Config.out_height,
+                "width": out_width - 5,
+                "height": out_height,
                 "angle": 0,
                 "strokeColor": Config.out_text_color,
                 "backgroundColor": None,
