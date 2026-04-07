@@ -44,6 +44,15 @@ class Utils:
         return size
 
     @staticmethod
+    def hard_wrap(text, max_chars):
+        if len(text) <= max_chars:
+            return text
+        lines = []
+        for i in range(0, len(text), max_chars):
+            lines.append(text[i:i + max_chars])
+        return "\n".join(lines)
+
+    @staticmethod
     def split_text(text, size_newline):
         if len(text) > size_newline:
             middle_text = len(text) / 2

@@ -139,7 +139,7 @@ class ParserMD:
                     raise ValueError(f"{filename}: malformed command line: {line.rstrip()}")
                 spaces = len(match.group(1))
                 level = int(3 + spaces / 2)
-                text = Utils.split_text(match.group(2), Config.command_new_line_nb_chars)
+                text = Utils.hard_wrap(match.group(2), Config.command_new_line_nb_chars)
 
                 # tool parsing
                 cmd_to_parse = text.replace("proxychains ", "")

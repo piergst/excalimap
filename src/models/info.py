@@ -31,7 +31,7 @@ class Info(MapObject):
     def draw(self, x, y):
         elements = []
         # end_x and end_y will be minimum to title draw size
-        calc_width = math.ceil(Utils.len_text(self.text) * 7.6) + 10
+        calc_width = math.ceil(Utils.len_text(self.text) * 8.5) + 10
         self.object_width = max(calc_width, self.object_width)
 
         end_x = x + self.object_width
