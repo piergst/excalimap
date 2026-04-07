@@ -51,8 +51,8 @@ class Utils:
             text_multiline = ""
             split = False
             for text_bloc in text_blocs:
-                if len(text_multiline) > middle_text and not split:
-                    text_multiline += "\n"
+                if text_multiline and len(text_multiline) + len(text_bloc) >= middle_text and not split:
+                    text_multiline = text_multiline.rstrip() + "\n"
                     split = True
                 text_multiline += text_bloc + " "
             text = text_multiline.strip()
