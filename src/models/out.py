@@ -73,7 +73,7 @@ class Out(MapObject):
         return element, end_x, end_y
 
     def draw_out_element(self, x, y, color):
-        calc_width = math.ceil(Utils.len_text(self.text) * 10) + 10
+        calc_width = math.ceil(Utils.len_text(self.text) * 7.6) + 10
         out_width = max(Config.out_width, calc_width)
         out_height = Config.out_height
 

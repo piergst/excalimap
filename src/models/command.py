@@ -36,7 +36,7 @@ class Command(MapObject):
         text_padding = 5
         # end_x and end_y will be minimum to element size
 
-        calc_width = text_padding + Config.image_width + text_padding + math.ceil(Utils.len_text(self.text) * 8.75)
+        calc_width = text_padding + Config.image_width + text_padding + math.ceil(Utils.len_text(self.text) * 7.4)
         self.object_width = max(self.object_width, calc_width)
         end_x = x + self.object_width
         end_y = y + Config.command_height
