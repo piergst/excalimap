@@ -118,6 +118,7 @@ class ParserMD:
                 text = Utils.split_text(match.group(1), Config.title_new_line_nb_chars)
                 title_obj = Title(text=text, is_cve=cve, content=[], out=out, object_id=hash(f"{id}"))
                 level = 2
+                parent = {k: v for k, v in parent.items() if k <= level}
                 parent[level] = title_obj
                 parent[level - 1].content.append(title_obj)
                 continue
