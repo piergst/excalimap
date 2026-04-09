@@ -120,6 +120,11 @@ class ParserMD:
                 level = 2
                 parent = {k: v for k, v in parent.items() if k <= level}
                 parent[level] = title_obj
+                if level - 1 not in parent:
+                    raise KeyError(
+                        f"{filename}:{line_nb}: '## {match.group(1)}' has no parent '# ' heading. "
+                        f"Every '##' section must be inside a '#' section."
+                    )
                 parent[level - 1].content.append(title_obj)
                 continue
 
